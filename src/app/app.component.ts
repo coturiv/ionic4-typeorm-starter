@@ -1,62 +1,33 @@
 import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { createConnection } from 'typeorm'
 
-import { HomePage } from '../pages/home/home';
+import { Platform } from '@ionic/angular';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
-import { Author } from '../entities/author';
-import { Category } from '../entities/category';
-import { Post } from '../entities/post';
+import { createConnection } from 'typeorm';
+import { DbService } from './services/db.service';
+
 
 @Component({
-  templateUrl: 'app.html'
+  selector: 'app-root',
+  templateUrl: 'app.component.html'
 })
-export class MyApp {
-  rootPage: any;
+export class AppComponent {
+  constructor(
+    private platform: Platform,
+    private splashScreen: SplashScreen,
+    private statusBar: StatusBar,
+    private dbService: DbService
+  ) {
+    this.initializeApp();
+  }
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
-    platform.ready().then(async () => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
-      splashScreen.hide();
-
-      // Depending on the machine the app is running on, configure
-      // different database connections
-      if(platform.is('cordova')) {
-        // Running on device or emulator
-        await createConnection({
-          type: 'cordova',
-          database: 'test',
-          location: 'default',
-          logging: ['error', 'query', 'schema'],
-          synchronize: true,
-          entities: [
-            Author,
-            Category,
-            Post
-          ]
-        });
-      } else {
-        // Running app in browser
-        await createConnection({
-          type: 'sqljs',
-          autoSave: true,
-          location: 'browser',
-          logging: ['error', 'query', 'schema'],
-          synchronize: true,
-          entities: [
-            Author,
-            Category,
-            Post
-          ]
-        });
-      }
-
-      this.rootPage = HomePage;
+  async initializeApp() {
+    this.platform.ready().then(() => {
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
     });
+
+    await this.dbService.ready();
   }
 }
-

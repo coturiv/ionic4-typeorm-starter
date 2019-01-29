@@ -1,22 +1,22 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component, OnInit } from '@angular/core';
 import { getRepository, Repository } from 'typeorm';
 
-import { Author } from '../../entities/author';
-import { Category } from '../../entities/category';
-import { Post } from '../../entities/post';
+import { Post } from 'src/app/entities/post';
+import { Category } from 'src/app/entities/category';
+import { Author } from 'src/app/entities/author';
 
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
 })
-export class HomePage {
-  private savedPost: boolean = false;
-  private loadedPost: Post = null;
+export class HomePage implements OnInit {
+  savedPost: boolean = false;
+  loadedPost: Post = null;
 
-  constructor(public navCtrl: NavController) { }
+  constructor() { }
 
-  ionViewDidLoad() {
+  ngOnInit() {
     this.runDemo();
   }
 

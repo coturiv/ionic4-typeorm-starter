@@ -1,8 +1,7 @@
 {
-  "name": "ionic-example",
-  "app_id": "",
-  "type": "ionic-angular",
+  "name": "ionic4-typeorm-starter",
   "integrations": {
     "cordova": {}
-  }
+  },
+  "type": "angular"
 }
