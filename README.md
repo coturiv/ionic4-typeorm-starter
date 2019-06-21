@@ -61,10 +61,21 @@ npm install typeorm --save
 npm install @types/node --save-dev
 ```
 
-4. Add `"typeRoots": ["node_modules/@types"]` to your `tsconfig.json` under `compilerOptions`
+4. Install @angular-builders/custom-webpack, is needed for apply custom webpack config.
+```bash
+npm i -D @angular-builders/custom-webpack@^7.2.0
+```
 
-5. Create a custom webpack config file like the one [included in this project](config/webpack.config.js) to use the correct TypeORM version and add the config file to your [`package.json`](package.json#L12-14) (Required with TypeORM >= 0.1.7)
+5. Install sql.js, to use TypeOrm on browser when develop, [used in](src/app/services/db.service.ts#L39-L53).
+```bash
+npm i sql.js@^0.5.0 --save
+```
 
+6. Add `"typeRoots": ["node_modules/@types"]` to your `tsconfig.json` under `compilerOptions`
+
+7. Create a custom webpack config file like the one [included in this project](config/webpack.config.js) to use the correct TypeORM version and add the config file to your [`angular.json`](angular.json#L17-19) (Required with TypeORM >= 0.1.7)
+
+8. In [`angular.json`](angular.json#L15)(already with the change), modify `"builder": "@angular-devkit/build-angular:browser",` for `"builder": "@angular-builders/custom-webpack:browser",`
 ### Limitations to TypeORM when using production builds
 
 Since Ionic make a lot of optimizations while building for production, the following limitations will occur:
