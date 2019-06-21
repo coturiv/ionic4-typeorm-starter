@@ -66,16 +66,29 @@ npm install @types/node --save-dev
 npm i -D @angular-builders/custom-webpack@^7.2.0
 ```
 
-5. Install sql.js, to use TypeOrm on browser when develop, [used in](src/app/services/db.service.ts#L39-L53).
+5 Install @angular-builders/dev-server, is needed for apply custom webpack config during `ionic serve`.
+```bash
+npm install --save @angular-builders/dev-server@^7.3.1
+```
+
+6. Install sql.js, to use TypeOrm on browser when develop, [used in](src/app/services/db.service.ts#L39-L53).
 ```bash
 npm i sql.js@^0.5.0 --save
 ```
 
-6. Add `"typeRoots": ["node_modules/@types"]` to your `tsconfig.json` under `compilerOptions`
+7. Add `"typeRoots": ["node_modules/@types"]` to your `tsconfig.json` under `compilerOptions`
 
-7. Create a custom webpack config file like the one [included in this project](config/webpack.config.js) to use the correct TypeORM version and add the config file to your [`angular.json`](angular.json#L17-19) (Required with TypeORM >= 0.1.7)
+8. Create a custom webpack config file like the one [included in this project](config/webpack.config.js) to use the correct TypeORM version and add the config file to your [`angular.json`](angular.json#L17-19) (Required with TypeORM >= 0.1.7)
 
-8. In [`angular.json`](angular.json#L15)(already with the change), modify `"builder": "@angular-devkit/build-angular:browser",` for `"builder": "@angular-builders/custom-webpack:browser",`
+9. In [`angular.json`](angular.json#L15)(already with the change), modify `"builder": "@angular-devkit/build-angular:browser",` for `"builder": "@angular-builders/custom-webpack:browser",`
+
+10. In [`angular.json`](angular.json#L78)(already with the change), modify `"builder": "@angular-devkit/build-angular:dev-server",` for `"builder": "@angular-builders/dev-server:generic",`
+
+[Optional]
+11. Create a bash script for remove warning of module not found for react native [included in this project](scripts/patch.sh), and add `"postinstall": "bash ./scripts/patch.sh"` line in `package.json` under `scripts`, [here](package.json#L13).
+
+> References: https://www.techiediaries.com/ionic-angular-typeorm-custom-webpack-configuration/
+
 ### Limitations to TypeORM when using production builds
 
 Since Ionic make a lot of optimizations while building for production, the following limitations will occur:
