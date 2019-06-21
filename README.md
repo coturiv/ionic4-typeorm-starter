@@ -66,7 +66,7 @@ npm install @types/node --save-dev
 npm i -D @angular-builders/custom-webpack@^7.2.0
 ```
 
-5 Install @angular-builders/dev-server, is needed for apply custom webpack config during `ionic serve`.
+5. Install @angular-builders/dev-server, is needed for apply custom webpack config during `ionic serve`.
 ```bash
 npm install --save @angular-builders/dev-server@^7.3.1
 ```
@@ -85,7 +85,7 @@ npm i sql.js@^0.5.0 --save
 10. In [`angular.json`](angular.json#L78)(already with the change), modify `"builder": "@angular-devkit/build-angular:dev-server",` for `"builder": "@angular-builders/dev-server:generic",`
 
 [Optional]
-11. Create a bash script for remove warning of module not found for react native [included in this project](scripts/patch.sh), and add `"postinstall": "bash ./scripts/patch.sh"` line in `package.json` under `scripts`, [here](package.json#L13).
+11. Create a bash script inside a `scripts` folder for remove warning of module not found for react native, the script is [included in this project](scripts/patch.sh), and add `"postinstall": "bash ./scripts/patch.sh"` line in `package.json` under `scripts`, [here](package.json#L13).
 
 > References: https://www.techiediaries.com/ionic-angular-typeorm-custom-webpack-configuration/
 
