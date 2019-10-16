@@ -4,6 +4,7 @@ import { getRepository, Repository } from 'typeorm';
 import { Post } from 'src/app/entities/post';
 import { Category } from 'src/app/entities/category';
 import { Author } from 'src/app/entities/author';
+import { DbService } from 'src/app/services/db.service';
 
 @Component({
   selector: 'app-home',
@@ -14,13 +15,15 @@ export class HomePage implements OnInit {
   savedPost: boolean = false;
   loadedPost: Post = null;
 
-  constructor() { }
+  constructor(private dbService: DbService) { }
 
   ngOnInit() {
     this.runDemo();
   }
 
   async runDemo() {
+    await this.dbService.ready();
+
     const category1 = new Category();
     category1.name = "TypeScript";
 
