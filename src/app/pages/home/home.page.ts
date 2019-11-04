@@ -11,7 +11,7 @@ import { Author } from 'src/app/entities/author';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  savedPost: boolean = false;
+  savedPost = false;
   loadedPost: Post = null;
 
   constructor() { }
@@ -22,16 +22,16 @@ export class HomePage implements OnInit {
 
   async runDemo() {
     const category1 = new Category();
-    category1.name = "TypeScript";
+    category1.name = 'TypeScript';
 
     const category2 = new Category();
-    category2.name = "Programming";
+    category2.name = 'Programming';
 
     const author = new Author();
-    author.name = "Person";
+    author.name = 'Person';
 
     const post = new Post();
-    post.title = "Control flow based type analysis";
+    post.title = 'Control flow based type analysis';
     post.text = `TypeScript 2.0 implements a control flow-based type analysis for local variables and parameters.`;
     post.categories = [category1, category2];
     post.author = author;
@@ -39,7 +39,7 @@ export class HomePage implements OnInit {
     const postRepository = getRepository('post') as Repository<Post>;
     await postRepository.save(post);
 
-    console.log("Post has been saved");
+    console.log('Post has been saved');
     this.savedPost = true;
 
     const loadedPost = await postRepository.createQueryBuilder('post')
@@ -48,13 +48,13 @@ export class HomePage implements OnInit {
       .where('post.id = :id', {id: post.id})
       .getOne();
 
-    console.log("Post has been loaded: ", loadedPost);
+    console.log('Post has been loaded: ', loadedPost);
     this.loadedPost = loadedPost;
   }
 
   getCategories() {
-    if(this.loadedPost) {
-      return this.loadedPost.categories.map(cat => cat.name).join(", ");
+    if (this.loadedPost) {
+      return this.loadedPost.categories.map(cat => cat.name).join(', ');
     }
 
     return '';

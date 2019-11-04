@@ -14,8 +14,8 @@ import { ServicesModule } from './services/services.module';
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
-    BrowserModule, 
-    IonicModule.forRoot(), 
+    BrowserModule,
+    IonicModule.forRoot(),
     AppRoutingModule,
     ServicesModule
   ],

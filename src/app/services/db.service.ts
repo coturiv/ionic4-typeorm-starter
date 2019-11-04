@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 
-import { 
-  createConnection, 
-  ConnectionOptions, 
-  getConnection, 
-  Connection 
+import {
+  createConnection,
+  ConnectionOptions,
+  getConnection,
+  Connection
 } from 'typeorm';
 
 import { Author } from '../entities/author';
@@ -21,11 +21,11 @@ export class DbService {
 
   async ready() {
     try {
-      
+
       await getConnection();
-    
+
     } catch (ex) {
-      
+
       // console.log('Connection not established!', ex);
 
       await this.createConnection();
@@ -35,7 +35,7 @@ export class DbService {
 
   private createConnection(): Promise<Connection> {
     let dbOptions: ConnectionOptions;
-    
+
     if (this.platform.is('cordova')) {
 
       dbOptions = {
