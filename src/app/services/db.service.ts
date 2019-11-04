@@ -20,17 +20,8 @@ export class DbService {
   constructor(private platform: Platform) { }
 
   async ready() {
-    try {
-      
-      await getConnection();
-    
-    } catch (ex) {
-      
-      // console.log('Connection not established!', ex);
-
-      await this.createConnection();
-
-    }
+    await this.platform.ready();
+    await this.createConnection();
   }
 
   private createConnection(): Promise<Connection> {
