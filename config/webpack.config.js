@@ -1,5 +1,7 @@
 const webpack = require('webpack');
 
+console.info ('Using custom webpack config');
+
 module.exports = {
     plugins: [
         new webpack.ProvidePlugin({
