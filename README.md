@@ -1,104 +1,140 @@
-# Using TypeORM in an Ionic project
-You can use TypeORM in connection with the `cordova-sqlite-storage` plugin in your Ionic app.
-This project demonstrates how that would work.
+# ionic-typeorm-starter
 
-## Installation
+<img src="./src/assets/images/ionic.png" height="64"/>
+<img src="./src/assets/images/angular.png" height="64" style="margin-left: 16px"/>
+<img src="./src/assets/images/cordova.png" height="64" style="margin-left: 16px"/>
+<img src="./src/assets/images/typeorm.png" height="64" style="margin-left: 16px"/>
+<img src="./src/assets/images/sqlite.png" height="64" style="margin-left: 16px"/>
 
-To run this example in production or development mode you have to make sure, `ionic` and `cordova` are installed globally on your machine. After that you can install all necessary dependencies for running this example.
+Starter template for build Ionic/Angular/Cordova apps with Typeorm.
 
-0. Check if `npm` is installed. Otherwise please [install `node.js` and `npm`](https://nodejs.org/en/download/package-manager/).
-```bash
-npm -v
-```
+[![](https://github.com/coturiv/ionic-typeorm-starter/workflows/CI/badge.svg)](https://github.com/coturiv/ionic-typeorm-starter/actions)
+[![Renovate enabled](https://img.shields.io/badge/renovate-enabled-yellowgreen.svg)](https://renovatebot.com/)
+[![David](https://david-dm.org/coturiv/ionic-typeorm-starter/status.svg)](https://david-dm.org/coturiv/ionic-typeorm-starter)
 
-1. Install ionic and cordova command line interface globally.
-```bash
-npm install -g cordova ionic
-```
 
-2. Install all dependencies listed in [`package.json`](/package.json).
-```bash
-npm install
-```
 
-### Running the example in your browser
-```bash
-ionic serve
-```
+## Getting Started
 
-### Running the example on your device
-3. Add an iOS or Android to the project.
-```bash
-ionic cordova platform add ios 
-# or 
-ionic cordova platform add android
-```
+- [Download the installer](https://nodejs.org/) for Node.js 10 or greater.
+- Install the ionic CLI globally: `npm install -g ionic`
+- Clone this repository: `git clone https://github.com/coturiv/ionic-typeorm-starter`.
+- Run `npm install` from the project root.
+- Run `ionic serve` in a terminal from the project root.
 
-4. Run the app on your device.
-```bash
-ionic cordova run ios
-# or
-ionic cordova run android
-```
 
-*For further information please read [ionic's deployment guide](https://ionicframework.com/docs/intro/deploying/).*
+## Screenshot
 
-![screenshot](./screenshot.png)
+<img src="./screenshot.png" width="280" />
 
-### Using TypeORM in your own app
-1. Install the plugin
-```bash
-ionic cordova plugin add cordova-sqlite-storage --save
-```
+## Adding TypeORM to an existing app
 
-2. Install TypeORM
-```bash
-npm install typeorm --save
-```
+- Install dependencies
 
-3. Install node.js-Types
-```bash
-npm install @types/node --save-dev
-```
+    ```
+    npm i typerom
 
-4. Install @angular-builders/custom-webpack, is needed for apply custom webpack config.
-```bash
-npm i -D @angular-builders/custom-webpack@^7.2.0
-```
+    ionic cordova plugin add cordova-plugin-sqlite
+    ```
 
-5. Install @angular-builders/dev-server, is needed for apply custom webpack config during `ionic serve`.
-```bash
-npm install --save @angular-builders/dev-server@^7.3.1
-```
+    Below steps are required to use `Sql.js` in the web platform.
 
-6. Install sql.js, to use TypeOrm on browser when develop, [used in](src/app/services/db.service.ts#L39-L53).
-```bash
-npm i sql.js@^0.5.0 --save
-```
+    ```
+    npm i sql.js
+    ```
 
-7. Add `"typeRoots": ["node_modules/@types"]` to your `tsconfig.json` under `compilerOptions`
+    And install `@angular-builders/custom-webpack`, is needed for apply custom webpack config
 
-8. Create a custom webpack config file like the one [included in this project](config/webpack.config.js) to use the correct TypeORM version and add the config file to your [`angular.json`](angular.json#L17-19) (Required with TypeORM >= 0.1.7)
+    ```
+    npm i -D @angular-builders/custom-webpack
+    ```
 
-9. In [`angular.json`](angular.json#L15)(already with the change), modify `"builder": "@angular-devkit/build-angular:browser",` for `"builder": "@angular-builders/custom-webpack:browser",`
+- Project configuration 
 
-10. In [`angular.json`](angular.json#L78)(already with the change), modify `"builder": "@angular-devkit/build-angular:dev-server",` for `"builder": "@angular-builders/dev-server:generic",`
+    - Correct `typeorm` path
 
-[Optional]
-11. Create a bash script inside a `scripts` folder for remove warning of module not found for react native, the script is [included in this project](scripts/patch.sh), and add `"postinstall": "bash ./scripts/patch.sh"` line in `package.json` under `scripts`, [here](package.json#L13).
+        `./tsconfig.app.json`
+        ```
+        "types": ["node"],
+        "paths": {
+          "typeorm": [node_modules/typeorm/browser"]
+        }
+        ```
+    - [SQL.js] Customize Webpack
 
-> References: https://www.techiediaries.com/ionic-angular-typeorm-custom-webpack-configuration/
+        `./angular.json`
 
-### Limitations to TypeORM when using production builds
+        Create webpack in the config(or something else you prefer) and update `angular.json`.
 
-Since Ionic make a lot of optimizations while building for production, the following limitations will occur:
+        _Note: `webpack.asm.js` is designed to use asm.js and `webpack.wasm.js` is designed to use WebAssembly, but `webpack.wasm.js` does't support dev environment now._
 
-1. Entities have to be marked with the table name (eg `@Entity('table_name')`)
+        Before:
+        ```
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
 
-2. `getRepository()` has to be called with the name of the entity instead of the class (*eg `getRepository('post') as Repository<Post>`*)
+        ...
 
-3. Date fields are **not supported**:
-```ts
-@Column()
-birthdate: Date;
-```
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+        
+        ```
+
+        After:
+        ```
+        "build": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
+            "customWebpackConfig": {
+              "path": "./config/webpack.asm.js"
+            },
+
+        ...
+
+        "serve": {
+          "builder": "@angular-builders/custom-webpack:dev-server",
+        ```
+
+        WebAssembly in the production:
+        ```
+        "configurations": {
+            "production": {
+              "customWebpackConfig": {
+                "path": "./config/webpack.wasm.js"
+              },
+        ```
+
+    - [SQL.js] Add some definitions to work `typeorm` in the browser 
+
+        `./src/polyfills.ts`
+        ```
+        (window.global as any) = window;
+
+        // global.Buffer is requred
+        global.Buffer = global.Buffer || require('buffer').Buffer;
+
+        // NodeJS.process is requred
+        (window as any).process = {
+            env: { DEBUG: undefined },
+            browser: true
+        };
+        ```
+- [Optional] Remove `react-ative warnings`:
+
+    use `patch` script in the `scripts` directory
+
+- Build
+
+    ```
+    ionic cordova platform build --prod ['ios' | 'android' | 'browser']
+    ```
+
+### References
+
+https://typeorm.io/
+
+https://github.com/kripken/sql.js/
+
+https://github.com/just-jeb/angular-builders/tree/master/packages/custom-webpack
+

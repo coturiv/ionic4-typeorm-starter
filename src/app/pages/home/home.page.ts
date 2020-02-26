@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { getRepository, Repository } from 'typeorm';
 
 import { Post } from 'src/app/entities/post';
 import { Category } from 'src/app/entities/category';
 import { Author } from 'src/app/entities/author';
+import { getRepository, Repository } from 'typeorm';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +24,8 @@ export class HomePage implements OnInit {
     const category1 = new Category();
     category1.name = 'TypeScript';
 
+    await getRepository(Category).save(category1);
+
     const category2 = new Category();
     category2.name = 'Programming';
 
@@ -36,25 +38,24 @@ export class HomePage implements OnInit {
     post.categories = [category1, category2];
     post.author = author;
 
-    const postRepository = getRepository('post') as Repository<Post>;
+    const postRepository = getRepository(Post) as Repository<Post>;
+
     await postRepository.save(post);
 
-    console.log('Post has been saved');
     this.savedPost = true;
 
     const loadedPost = await postRepository.createQueryBuilder('post')
       .innerJoinAndSelect('post.author', 'author')
       .innerJoinAndSelect('post.categories', 'categories')
-      .where('post.id = :id', {id: post.id})
+      .where('post.id = :id', { id: post.id })
       .getOne();
 
-    console.log('Post has been loaded: ', loadedPost);
     this.loadedPost = loadedPost;
   }
 
   getCategories() {
     if (this.loadedPost) {
-      return this.loadedPost.categories.map(cat => cat.name).join(', ');
+      return this.loadedPost.categories.map((cat: Category) => cat.name).join(', ');
     }
 
     return '';

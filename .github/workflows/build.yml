@@ -1,40 +1,39 @@
+
 name: CI
 
-on: [push]
+#
+# Documentation:
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions
+#
+
+on: [push, pull_request]
+
+env:
+  CI: true
 
 jobs:
+
   build:
-
-    runs-on: macOS-latest
-    
-    env:
-        CI: true
-
-    strategy:
-      matrix:
-        node-version: [10.x]
-
+    name: build
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Setup Cordova
-      run: |
-        npm install -g cordova
-        npm install -g ionic
-    
-    - name: Install dependencies
-      run: npm install
-      
-    - name: Run lint
-      run: npm run lint
-      
-    # - name: Run Test
-    #   run: npm run test
+      - name: Checkout Code
+        uses: actions/checkout@v1
 
-    - name: Build iOS
-      run: |
-        ionic cordova platform add ios
-        ionic cordova prepare ios --prod
+      - name: Setup Ionic
+        uses: coturiv/setup-ionic@v1
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build apk
+        run: ionic cordova build android --prod
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: app-debug
+          path: ./platforms/android/app/build/outputs/apk/debug/app-debug.apk 

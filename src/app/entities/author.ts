@@ -1,18 +1,15 @@
-import {Entity, Column, PrimaryGeneratedColumn, OneToMany} from 'typeorm';
-import {Post} from './post';
+import { Entity, Column, OneToMany } from 'typeorm';
+import { CommonEntity } from './CommonEntity';
 
 @Entity('author')
-export class Author {
-
-    @PrimaryGeneratedColumn()
-    id: number;
+export class Author extends CommonEntity {
 
     @Column()
     name: string;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     birthdate: string;
 
-    @OneToMany(type => Post, post => post.author)
-    posts: Post[];
+    @OneToMany('Post', (post: any) => post.author)
+    posts: CommonEntity[];
 }

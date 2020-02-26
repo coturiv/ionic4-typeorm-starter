@@ -1,27 +1,19 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne} from 'typeorm';
-import {Category} from './category';
-import {Author} from './author';
+import { Entity, Column, ManyToMany, JoinTable, ManyToOne } from 'typeorm';
+import { CommonEntity } from './CommonEntity';
 
 @Entity('post')
-export class Post {
+export class Post extends CommonEntity {
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column()
+  title: string;
 
-    @Column()
-    title: string;
+  @Column('text')
+  text: string;
 
-    @Column('text')
-    text: string;
+  @ManyToMany('Category', { cascade: true })
+  @JoinTable()
+  categories: CommonEntity[];
 
-    @ManyToMany(type => Category, {
-      cascade: ['insert']
-    })
-    @JoinTable()
-    categories: Category[];
-
-    @ManyToOne(type => Author, author => author.posts, {
-      cascade: ['insert']
-    })
-    author: Author;
+  @ManyToOne('Author', (author: any) => author.posts, { cascade: ['insert'] })
+  author: CommonEntity;
 }
