@@ -1,10 +1,6 @@
 # ionic-typeorm-starter
 
-<img src="./src/assets/images/ionic.png" height="64"/>
-<img src="./src/assets/images/angular.png" height="64" style="margin-left: 16px"/>
-<img src="./src/assets/images/cordova.png" height="64" style="margin-left: 16px"/>
-<img src="./src/assets/images/typeorm.png" height="64" style="margin-left: 16px"/>
-<img src="./src/assets/images/sqlite.png" height="64" style="margin-left: 16px"/>
+<img src="./src/assets/images/ionic.png" height="54"/><img src="./src/assets/images/angular.png" height="54" style="margin-left: 16px"/><img src="./src/assets/images/cordova.png" height="54" style="margin-left: 16px"/><img src="./src/assets/images/typeorm.png" height="54" style="margin-left: 16px"/><img src="./src/assets/images/sqlite.png" height="54" style="margin-left: 16px"/>
 
 Starter template for build Ionic/Angular/Cordova apps with Typeorm.
 
@@ -132,9 +128,7 @@ Starter template for build Ionic/Angular/Cordova apps with Typeorm.
 
 ### References
 
-https://typeorm.io/
-
-https://github.com/kripken/sql.js/
-
-https://github.com/just-jeb/angular-builders/tree/master/packages/custom-webpack
+- https://typeorm.io/
+- https://github.com/kripken/sql.js/
+- https://github.com/just-jeb/angular-builders/tree/master/packages/custom-webpack
 
