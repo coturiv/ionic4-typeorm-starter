@@ -13,7 +13,7 @@
   "labels": [
     "deps"
   ],
-  "branchPrefix": "deps",
+  "branchPrefix": "deps/",
   "packageRules": [
     {
       "packagePatterns": [
